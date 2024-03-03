@@ -1,166 +1,150 @@
 import * as React from 'react';
-import { CssVarsProvider, useColorScheme } from '@mui/joy/styles';
-import Sheet from '@mui/joy/Sheet';
-import CssBaseline from '@mui/joy/CssBaseline';
-import Typography from '@mui/joy/Typography';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import Input from '@mui/joy/Input';
-import Button from '@mui/joy/Button';
-import Link from '@mui/joy/Link';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
+import axios from "axios"
+import { useNavigate } from 'react-router-dom';
 
-function ModeToggle() {
-  const { mode, setMode } = useColorScheme();
-  const [mounted, setMounted] = React.useState(false);
-
-  // necessary for server-side rendering
-  // because mode is undefined on the server
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-  if (!mounted) {
-    return <Button variant="soft">Change mode</Button>;
-  }
-
+function Copyright(props) {
   return (
-    <Button
-      variant="soft"
-      onClick={() => {
-        setMode(mode === 'light' ? 'dark' : 'light');
-      }}
-    >
-      {mode === 'light' ? 'Turn dark' : 'Turn light'}
-    </Button>
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
   );
 }
 
-export default function Signup() {
-  const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState("");
-  const [secretKey, setSecretKey] = useState("");
+// TODO remove, this demo shouldn't need to reset the theme.
 
-  const handleSubmit = (e) => {
-    
-    if (userType == "Admin" && secretKey != "AdarshT") {
-      e.preventDefault();
-      alert("Invalid Admin");
-    } else {
-      e.preventDefault();
+const defaultTheme = createTheme();
 
-      console.log(fname, lname, email, password);
-      fetch("http://localhost:5000/register", {
-        method: "POST", 
-        crossDomain: true,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify({
-          fname,
-          email,
-          lname,
-          password,
-          // userType,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data, "userRegister");
-          if (data.status == "ok") {
-            alert("Registration Successful");
-          } else {
-            alert("Something went wrong");
-          }
-        });
-    }
+export default function SignUp() {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
   };
+  const[userInfo,setUserInfo]=useState(null);
+
+  const handlechange=(event)=>{
+
+    setUserInfo({...userInfo,[event.target.name]:event.target.value})
+  }
+  let navigate = useNavigate();
+  
+  const handleinsert=()=>{
+    
+
+  axios.post('http://localhost:7000/api/foodiejungle/signup',userInfo)
+  .then(async(response)=> {
+   console.log(response)
+   await navigate ("/Signin ");
+  })
+  .catch((error)=>{
+   console.log(error);
+  })
+}
   return (
-
-    <CssVarsProvider>
-      {/* <form onSubmit={handleSubmit}> */}
-        <main >
-          <ModeToggle />
-          <CssBaseline />
-          <Sheet
-            sx={{
-              width: 300,
-              mx: 'auto', // margin left & right
-              my: 4, // margin top & bottom
-              py: 3, // padding top & bottom
-              px: 2, // padding left & right
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 2,
-              borderRadius: 'sm',
-              boxShadow: 'md',
-            }}
-            variant="outlined"
-          >
-            <div>
-              <Typography level="h4" component="h1">
-                <b>Welcome!</b>
-              </Typography>
-              <Typography level="body-sm">Sign Up to continue.</Typography>
-            </div>
-
-            <FormControl >
-              <FormLabel>First name</FormLabel>
-              <Input
-                type="text"
-                className="form-control"
-                placeholder="First name"
-                onChange={(e) => setFname(e.target.value)}
-              />
-            </FormControl>
-            <FormControl >
-              <FormLabel>Last name</FormLabel>
-              <Input
-                // html input attribute
-                type="text"
-                className="form-control"
-                placeholder="Last name"
-                onChange={(e) => setLname(e.target.value)}
-              />
-            </FormControl>
-            <FormControl >
-              <FormLabel>Email address</FormLabel>
-              <Input
-                // html input attribute
-                type="email"
-                className="form-control"
-                placeholder="Enter email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </FormControl>
-            <FormControl >
-              <FormLabel>Password</FormLabel>
-              <Input
-                type="password"
-                className="form-control"
-                placeholder="Enter password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </FormControl>
-
-            <Button sx={{ mt: 1 /* margin top */ }}  onClick={handleSubmit}> Sign Up</Button>
-
-            <Typography
-              endDecorator={<Link href="/login">Sign in?</Link>}
-              fontSize="sm"
-              sx={{ alignSelf: 'center' }}
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} >
+                <TextField onChange={handlechange}
+                  autoComplete="given-name"
+                  name="name"
+                  required
+                  fullWidth
+                  id="name"
+                  label=" Name"
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12} >
+                <TextField onChange={handlechange}
+                  required
+                  fullWidth
+                  id="phone"
+                  label="phone  Number"
+                  name="phone"
+                  autoComplete="family-name"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField onChange={handlechange}
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField onChange={handlechange}
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
+              
+            </Grid>
+            <Button  onClick={handleinsert}
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
             >
-              Already registered
-            </Typography>
-
-          </Sheet>
-        </main>
-      {/* </form> */}
-    </CssVarsProvider>
-
+              Sign Up
+            </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="/signin" variant="body2">
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+        <Copyright sx={{ mt: 5 }} />
+      </Container>
+    </ThemeProvider>
   );
 }
