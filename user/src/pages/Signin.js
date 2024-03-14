@@ -57,7 +57,7 @@ export default function Signin() {
 
 
 
-    axios.post('http://localhost:7000/api/foodiejungle/signin', userInfo)
+    axios.post('http://localhost:7000/api/user/signin', userInfo)
       .then(async (response) => {
         console.log(response.data)
         if (response.data.success) {
@@ -65,7 +65,7 @@ export default function Signin() {
           );
           await localStorage.setItem("token", JSON.stringify(response.data.authToken)
           );
-          await navigate ("/ ");
+          await navigate ("/menu ");
         }
       })
       .catch((error) => {

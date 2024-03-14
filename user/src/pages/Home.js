@@ -9,13 +9,13 @@ const Home = () => {
         <Layout>
            <div className='home'  style={{backgroundImage: `url(${Restaurant})`}}> 
            <div className='headContainer'>
-                   <h1>Fooddie Jungle</h1>
+                   <h1>Foddie Jungle</h1>
                    <p>Best Food in India</p>
                    {/* <Link  to="/menu">
 
                    </Link> */}
                    <button>
-                   <Link to='/Signin'> Login</Link>
+                   <Link to='/Signin'> Order Now</Link>
                    
                    </button>
            </div>

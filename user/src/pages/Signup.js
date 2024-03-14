@@ -53,7 +53,7 @@ export default function SignUp() {
   const handleinsert=()=>{
     
 
-  axios.post('http://localhost:7000/api/foodiejungle/signup',userInfo)
+  axios.post('http://localhost:7000/api/user/signup',userInfo)
   .then(async(response)=> {
    console.log(response)
    await navigate ("/Signin ");

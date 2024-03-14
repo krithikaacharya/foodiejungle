@@ -19,6 +19,7 @@ import Menu from './pages/Menu';
 import Pagenotfound from './pages/Pagenotfound';
 import Signin from './pages/Signin';
 import Signup from  './pages/Signup';
+import Cart from './pages/Cart';
 
 function App() {
   let styleobject = {
@@ -104,6 +105,7 @@ function App() {
       <Route path="/menu"   element={<Menu/>}/>  
       <Route path="/Signin" element={<Signin/>}/>
       <Route path="/Signup" element={<Signup/>}/>
+      <Route path="/Cart" element={<Cart/>}/>
       <Route path="*"   element={<Pagenotfound/>}/>    
         
      </Routes>
