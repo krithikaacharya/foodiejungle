@@ -1,0 +1,57 @@
+.nav-logo {
+  width: 150px;
+  height: 100px;
+}
+
+.navigation-menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.navigation-menu li {
+  margin: 0px 60px;
+}
+
+.navigation-menu a {
+  text-decoration: none;
+  color: white;
+}
+
+.navigation-menu li button {
+  padding: 10px 15px;
+  border-radius: 30px;
+}
+
+.nav-body {
+  background: url("../img/loginimg.png");
+}
+
+.nav-cart {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -40px;
+  margin-left: -10px;
+  font-size: 14px;
+  border-radius: 20px;
+  background: red;
+  color: white;
+}
+
+.Order-btn {
+  color: Black;
+  font-size: 15px;
+  cursor: pointer;
+  font-family: cursive;
+  background: grey;
+  padding: 10px 15px;
+  border-radius: 20px;
+  box-shadow: 10px 10px 10px grey;
+}
+
+.Order-btn:hover {
+  background-color: darkslategrey;
+}
