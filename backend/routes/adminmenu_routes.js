@@ -23,7 +23,7 @@ const upload = multer({ storage: storage });
 
 router.post("/addmenu", upload.single("imageProfile"), addmenu);
 router.get("/getmenu", getmenu);
-router.put("/updatemenu/:id", updatemenu);
+router.put("/updatemenu/:id", upload.single("imageProfile"), updatemenu);
 router.get("/viewSingleItem/:id", viewSingleItem);
 router.delete("/deletemenu/:id", deletemenu);
 

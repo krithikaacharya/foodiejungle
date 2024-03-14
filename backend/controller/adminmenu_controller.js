@@ -1,31 +1,36 @@
 const MenuSchema = require("../models/MenuSchema");
 
 const addmenu = async (req, res) => {
-  console.log(req.body);
-  const { title, price, category } = req.body;
-  const imageProfile = req.file?.filename;
-  // console.log(menuDetail);
+  try {
+    console.log(req.body);
+    const { title, price, category } = req.body;
+    const imageProfile = req.file.filename;
+    // console.log(menuDetail);
 
-  // MenuSchema.create(menuDetail)
-  //   .then((data) => {
-  //     res.status(201).send(data);
-  //     console.log(data);
-  //   })
-  //   .catch((error) => {
-  //     res.status(500).send(error.message);
-  //     console.log(error);
-  //   });
-  let newItem = await new MenuSchema({
-    title: title,
-    price: price,
-    category: category,
-    imageProfile: imageProfile,
-  });
-
-  let savedItem = await newItem.save();
-  res.json({
-    newItem: savedItem,
-  });
+    // MenuSchema.create(menuDetail)
+    //   .then((data) => {
+    //     res.status(201).send(data);
+    //     console.log(data);
+    //   })
+    //   .catch((error) => {
+    //     res.status(500).send(error.message);
+    //     console.log(error);
+    //   });
+    let newItem = new MenuSchema({
+      title: title,
+      price: price,
+      category: category,
+      imageProfile: imageProfile,
+    });
+    console.log(newItem);
+    let savedItem = await newItem.save();
+    res.json({
+      newItem: savedItem,
+    });
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error);
+  }
 };
 // const getmenu = async (req, res) => {
 //   const menuData = req.body;
@@ -52,13 +57,15 @@ const updatemenu = async (req, res) => {
     console.log("Item not found");
     res.json({ message: "Item not found" + req.params.id + " ID!" });
   } else {
-    const { title, imageURL, price, category } = req.body;
+    console.log(req.body, "data");
+    const { title, price, category } = req.body;
+    const imageProfile = req.file?.filename;
     let updatemenu = {};
     if (title) {
       updatemenu.title = title;
     }
-    if (imageURL) {
-      updatemenu.imageURL = imageURL;
+    if (imageProfile) {
+      updatemenu.imageProfile = imageProfile;
     }
     if (price) {
       updatemenu.price = price;

@@ -11,17 +11,10 @@ app.use("/api/admin", require("./routes/admin_routes.js"));
 
 // Add Menu items...
 app.use("/api/adminmenu", require("./routes/adminmenu_routes.js"));
-
-
-
-// cart
-app.use("/api/usercart",require("./routes/usercart_routes.js"));
-app.use("/uploads/cartimage", express.static("./uploads"));
-
-// user register
-app.use ("/api/user", require("./routes/user_routes.js"));
-
 app.use("/uploads/", express.static("./uploads"));
+
+//User routes..
+app.use("/api/foodiejungle", require("./routes/user_routes"));
 
 // app.listen shld and must be bottom of index file.......
 const PORT = 7000;
